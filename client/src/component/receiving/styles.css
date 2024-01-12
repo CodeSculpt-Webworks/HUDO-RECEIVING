@@ -1,0 +1,13 @@
+.dropzone {
+    border: 2px dashed #cccccc;
+    padding: 20px;
+    text-align: center;
+}
+
+.dropzone.active {
+    border-color: green;
+}
+
+.dropzone.error {
+    border-color: red;
+}
