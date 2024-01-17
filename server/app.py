@@ -13,12 +13,10 @@ CORS(app)
 def save_data():
     try:
         data = request.get_json()
-
-        data_folder = 'data'
+        title = data.get('title')
+        data_folder = os.path.join('data', title)
         os.makedirs(data_folder, exist_ok=True)
-
-        filename = os.path.join(data_folder, f'data_{uuid.uuid4()}.json')
-
+        filename = os.path.join(data_folder, 'data.json')
         with open(filename, 'w') as json_file:
             json.dump(data, json_file, indent=2)
 
