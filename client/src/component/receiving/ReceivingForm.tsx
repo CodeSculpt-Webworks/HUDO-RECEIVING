@@ -1,14 +1,13 @@
 import "./styles.css";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-
 import { saveData } from "./Functions";
 
 const RecievingForm = () => {
   const [title, setTitle] = useState<string>("");
   const [trackingNum, setTrackingNum] = useState<string>("");
-  const [receiver, setReceiver] = useState<string>("");
-  const [sender, setSender] = useState<string>("");
+  const [from, setFrom] = useState<string>("");
+  const [to, setTo] = useState<string>("");
   const [letterType, setLetterType] = useState<"Incoming" | "Outgoing">(
     "Incoming"
   );
@@ -24,18 +23,22 @@ const RecievingForm = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleSubmit = async () => {
-    const formData = {
-      title,
-      trackingNum,
-      receiver,
-      sender,
-      letterType,
-      files,
-    };
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("trackingNum", trackingNum);
+    formData.append("from", from);
+    formData.append("to", to);
+    formData.append("letterType", letterType);
+
+    // Append files
+    for (const file of files) {
+      formData.append("attachments", file);
+    }
 
     try {
       await saveData(formData);
-      console.log(JSON.stringify(formData));
+      console.log("Form data submitted successfully");
     } catch (error) {
       console.error("Error handling submit:", error);
     }
@@ -65,21 +68,21 @@ const RecievingForm = () => {
       </div>
       <div>
         <label>
-          Receiver:
+          from:
           <input
             type="text"
-            value={receiver}
-            onChange={(e) => setReceiver(e.target.value)}
+            value={from}
+            onChange={(e) => setFrom(e.target.value)}
           />
         </label>
       </div>
       <div>
         <label>
-          Sender:
+          to:
           <input
             type="text"
-            value={sender}
-            onChange={(e) => setSender(e.target.value)}
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
           />
         </label>
       </div>
