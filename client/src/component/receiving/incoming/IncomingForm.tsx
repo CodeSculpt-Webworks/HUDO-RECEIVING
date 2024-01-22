@@ -1,13 +1,16 @@
 import "./styles.css";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { saveData } from "./Functions";
+import axios from "axios";
 
-const RecievingForm = () => {
+import { ipCon } from "../..";
+
+const IncomingForm = () => {
   const [title, setTitle] = useState<string>("");
-  const [trackingNum, setTrackingNum] = useState<string>("");
+  const [trackingNumber, settrackingNumber] = useState<string>("");
   const [from, setFrom] = useState<string>("");
   const [to, setTo] = useState<string>("");
+  const [subject, setSubject] = useState<string>("");
   const [letterType, setLetterType] = useState<"Incoming" | "Outgoing">(
     "Incoming"
   );
@@ -26,15 +29,28 @@ const RecievingForm = () => {
     const formData = new FormData();
 
     formData.append("title", title);
-    formData.append("trackingNum", trackingNum);
+    formData.append("trackingNumber", trackingNumber);
     formData.append("from", from);
     formData.append("to", to);
+    formData.append("subject", subject);
     formData.append("letterType", letterType);
 
-    // Append files
     for (const file of files) {
       formData.append("attachments", file);
     }
+
+    const saveData = async (formData: FormData) => {
+      try {
+        const response = await axios.post(`${ipCon}/save-data`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error saving data:", error);
+      }
+    };
 
     try {
       await saveData(formData);
@@ -45,7 +61,7 @@ const RecievingForm = () => {
   };
 
   return (
-    <div>
+    <div className="main">
       <div>
         <label>
           Title:
@@ -61,8 +77,8 @@ const RecievingForm = () => {
           Tracking Number:
           <input
             type="text"
-            value={trackingNum}
-            onChange={(e) => setTrackingNum(e.target.value)}
+            value={trackingNumber}
+            onChange={(e) => settrackingNumber(e.target.value)}
           />
         </label>
       </div>
@@ -83,6 +99,16 @@ const RecievingForm = () => {
             type="text"
             value={to}
             onChange={(e) => setTo(e.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Subject:
+          <input
+            type="text"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
           />
         </label>
       </div>
@@ -120,4 +146,4 @@ const RecievingForm = () => {
   );
 };
 
-export default RecievingForm;
+export default IncomingForm;

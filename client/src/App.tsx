@@ -1,10 +1,39 @@
+import { useState } from "react";
 import "./App.css";
-import { ReceivingForm } from "./component";
+
+import { IncomingForm, DataList } from "./component";
 
 function App() {
+  const [activeTab, setActiveTab] = useState<"form" | "data">("form");
+
+  const openDataTab = () => {
+    setActiveTab("data");
+  };
+
   return (
     <>
-      <ReceivingForm />
+      <div className="main">
+        <ul>
+          <li>
+            <button
+              className={`nav-link ${activeTab === "form" ? "active" : ""}`}
+              onClick={() => setActiveTab("form")}
+            >
+              Form
+            </button>
+          </li>
+          <li>
+            <button
+              className={`nav-link ${activeTab === "data" ? "active" : ""}`}
+              onClick={openDataTab}
+            >
+              Data
+            </button>
+          </li>
+        </ul>
+        {activeTab === "form" && <IncomingForm />}
+        {activeTab === "data" && <DataList />}
+      </div>
     </>
   );
 }
