@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./styles.css";
 
-import { ipCon } from "../../../ipCon";
+import { ipCon } from "../../../secret/ipCon";
 
 type DataItem = {
   trackingNumber: string;
