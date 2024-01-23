@@ -23,6 +23,10 @@ const IncomingForm = () => {
     [setFiles]
   );
 
+  const scanFile = () => {
+    () => alert("Scannnnnnnnnn!?");
+  };
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleSubmit = async () => {
@@ -151,7 +155,9 @@ const IncomingForm = () => {
           </div>
         </label>
       </div>
-
+      <div className="scan-container">
+        <button onClick={scanFile}>Scan File</button>
+      </div>
       <div
         {...getRootProps()}
         className={`dropzone ${isDragActive ? "active" : ""}`}

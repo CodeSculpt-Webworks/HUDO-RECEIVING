@@ -62,8 +62,24 @@ const DataList = () => {
     setModalVisible(true);
   };
 
-  const deleteLetter = () => {
-    console.log("deleteLetter");
+  const deleteLetter = async (title: string) => {
+    try {
+      const response = await fetch(`${ipCon}/delete-data/${title}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        setFilteredData(filteredData.filter((item) => item.title !== title));
+      } else {
+        const errorMessage = await response.text();
+        console.error(`Failed to delete data: ${errorMessage}`);
+      }
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    }
   };
 
   const closeModal = () => {
@@ -109,8 +125,14 @@ const DataList = () => {
               <td style={{ display: "flex" }}>
                 <button onClick={() => viewDetails(item)}>Details</button>
                 <button
+                  style={{ marginLeft: "10px", background: "yellow" }}
+                  onClick={() => deleteLetter(item.title)}
+                >
+                  Edit
+                </button>
+                <button
                   style={{ marginLeft: "10px", background: "red" }}
-                  onClick={deleteLetter}
+                  onClick={() => deleteLetter(item.title)}
                 >
                   Delete
                 </button>

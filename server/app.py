@@ -63,5 +63,18 @@ def download_attachment(title, attachment_folder, filename):
     return send_from_directory(data_folder, filename, as_attachment=True, mimetype=content_type)
 
 
+@app.route('/delete-data/<title>', methods=['DELETE'])
+def delete_data(title):
+    try:
+        data_folder = os.path.join('data', title)
+        if os.path.exists(data_folder):
+            shutil.rmtree(data_folder)
+            return jsonify({"message": "Data deleted successfully"})
+        else:
+            return jsonify({"error": "Data not found"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
