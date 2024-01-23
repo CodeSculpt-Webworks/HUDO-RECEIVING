@@ -62,28 +62,17 @@ const DataList = () => {
     setModalVisible(true);
   };
 
+  const deleteLetter = () => {
+    console.log("deleteLetter");
+  };
+
   const closeModal = () => {
     setSelectedItem(null);
     setModalVisible(false);
   };
 
-  const downloadAttachment = async (title: string, filename: string) => {
-    try {
-      const response = await axios.get(`/download-data/${title}/${filename}`, {
-        responseType: "blob",
-      });
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", filename);
-      document.body.appendChild(link);
-      link.click();
-
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error("Error downloading attachment:", error);
-    }
+  const downloadAttachment = async () => {
+    alert("This button is currently useless po ^.^");
   };
 
   if (loading) {
@@ -121,9 +110,7 @@ const DataList = () => {
                 <button onClick={() => viewDetails(item)}>Details</button>
                 <button
                   style={{ marginLeft: "10px", background: "red" }}
-                  onClick={() =>
-                    alert(`"Delete Letter" Button is not okay pa po ^.^`)
-                  }
+                  onClick={deleteLetter}
                 >
                   Delete
                 </button>
