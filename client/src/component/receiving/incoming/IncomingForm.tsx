@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
 
-import { ipCon } from "../..";
+import { ipCon } from "../../../ipCon";
 
 const IncomingForm = () => {
   const [title, setTitle] = useState<string>("");

@@ -1,0 +1,1 @@
+export const ipCon = 'http://192.168.10.234:5000'
