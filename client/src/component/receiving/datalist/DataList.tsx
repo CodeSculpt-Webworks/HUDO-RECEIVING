@@ -51,7 +51,8 @@ const DataList = () => {
           ?.toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
         item?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item?.letterType?.toLowerCase().includes(searchTerm.toLowerCase())
+        item?.letterType?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item?.subject?.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredData(filtered);
   }, [searchTerm, data]);
@@ -91,6 +92,7 @@ const DataList = () => {
 
   return (
     <div className="main">
+      <p className="letter-name">Letter Counter: </p>
       <input
         type="text"
         placeholder="Search by tracking number, title, or letter type"
@@ -103,8 +105,9 @@ const DataList = () => {
           <tr>
             <th>Tracking Number</th>
             <th>Title</th>
+            <th>Subject</th>
             <th>Letter Type</th>
-            <th>Details</th>
+            <th>HUDO</th>
           </tr>
         </thead>
         <tbody>
@@ -112,9 +115,18 @@ const DataList = () => {
             <tr key={item.trackingNumber || index}>
               <td>{item.trackingNumber}</td>
               <td>{item.title}</td>
+              <td>{item.subject}</td>
               <td>{item.letterType}</td>
-              <td>
-                <button onClick={() => viewDetails(item)}>View Details</button>
+              <td style={{ display: "flex" }}>
+                <button onClick={() => viewDetails(item)}>Details</button>
+                <button
+                  style={{ marginLeft: "10px", background: "red" }}
+                  onClick={() =>
+                    alert(`"Delete Letter" Button is not okay pa po ^.^`)
+                  }
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
@@ -126,20 +138,25 @@ const DataList = () => {
             <span className="close" onClick={closeModal}>
               &times;
             </span>
-            <h2>Details</h2>
-            <p>
-              Title - Tracking Number: {selectedItem.title} -{" "}
-              {selectedItem.trackingNumber}
-            </p>
-            <p>
-              From - To: {selectedItem.from} - {selectedItem.to}
-            </p>
-            <p>Subject: {selectedItem.subject}</p>
-            <p>Letter Type: {selectedItem.letterType}</p>
-            <button onClick={downloadAttachment}>
-              Download Attachment
-            </button>{" "}
-            <button onClick={closeModal}>Close</button>
+            <h2>{selectedItem.title}</h2>
+            <div className="detail-section">
+              <p>
+                <strong>Tracking Number:</strong> {selectedItem.trackingNumber}
+              </p>
+              <p>
+                <strong>From:</strong> {selectedItem.from}
+              </p>
+              <p>
+                <strong>To:</strong> {selectedItem.to}
+              </p>
+              <p>
+                <strong>Letter Type:</strong> {selectedItem.letterType}
+              </p>
+            </div>
+            <div className="button-section">
+              <button onClick={downloadAttachment}>Download Attachment</button>{" "}
+              <button onClick={closeModal}>Close</button>
+            </div>
           </div>
         </div>
       )}

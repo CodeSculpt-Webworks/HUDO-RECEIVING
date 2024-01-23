@@ -64,3 +64,19 @@ button:hover {
     font-size: 18px;
     cursor: pointer;
 }
+
+.detail-section {
+    margin-bottom: 20px;
+}
+
+.detail-section p {
+    margin: 0;
+}
+
+.detail-section p strong {
+    margin-right: 10px;
+}
+
+.button-section {
+    text-align: right;
+}

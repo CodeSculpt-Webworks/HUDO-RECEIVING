@@ -8,7 +8,7 @@ import { ipCon } from "../..";
 const IncomingForm = () => {
   const [title, setTitle] = useState<string>("");
   const [trackingNumber, settrackingNumber] = useState<string>("");
-  const [from, setFrom] = useState<string>("");
+  const [from, setFrom] = useState<string>("ATTY. JOHNBEE R. BITON");
   const [to, setTo] = useState<string>("");
   const [subject, setSubject] = useState<string>("");
   const [letterType, setLetterType] = useState<"Incoming" | "Outgoing">(
@@ -54,7 +54,15 @@ const IncomingForm = () => {
 
     try {
       await saveData(formData);
-      console.log("Form data submitted successfully");
+      setTitle("");
+      settrackingNumber("");
+      setFrom("");
+      setTo("");
+      setSubject("");
+      setLetterType("Incoming");
+      setFiles([]);
+
+      alert("Form data submitted successfully");
     } catch (error) {
       console.error("Error handling submit:", error);
     }
@@ -115,15 +123,32 @@ const IncomingForm = () => {
       <div>
         <label>
           Letter Type:
-          <select
-            value={letterType}
-            onChange={(e) =>
-              setLetterType(e.target.value as "Incoming" | "Outgoing")
-            }
-          >
-            <option value="Incoming">Incoming</option>
-            <option value="Outgoing">Outgoing</option>
-          </select>
+          <div className="radio-group">
+            <div className="radio-div">
+              <label>
+                <input
+                  className="radio-input"
+                  type="radio"
+                  value="Incoming"
+                  checked={letterType === "Incoming"}
+                  onChange={() => setLetterType("Incoming")}
+                />
+                Incoming
+              </label>
+            </div>
+            <div className="radio-div">
+              <label>
+                <input
+                  className="radio-input"
+                  type="radio"
+                  value="Outgoing"
+                  checked={letterType === "Outgoing"}
+                  onChange={() => setLetterType("Outgoing")}
+                />
+                Outgoing
+              </label>
+            </div>
+          </div>
         </label>
       </div>
 
