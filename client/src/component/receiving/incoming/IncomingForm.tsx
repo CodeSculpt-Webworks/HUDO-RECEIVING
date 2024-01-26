@@ -8,11 +8,11 @@ import { ipCon } from "../../../secret/ipCon";
 const IncomingForm = () => {
   const [title, setTitle] = useState<string>("");
   const [trackingNumber, settrackingNumber] = useState<string>("");
-  const [from, setFrom] = useState<string>("ATTY. JOHNBEE R. BITON");
-  const [to, setTo] = useState<string>("");
+  const [from, setFrom] = useState<string>("");
+  const [to, setTo] = useState<string>("ATTY. JOHNBEE R. BITON");
   const [subject, setSubject] = useState<string>("");
   const [letterType, setLetterType] = useState<"Incoming" | "Outgoing">(
-    "Incoming"
+    "Outgoing"
   );
   const [files, setFiles] = useState<File[]>([]);
 
@@ -22,10 +22,6 @@ const IncomingForm = () => {
     },
     [setFiles]
   );
-
-  const scanFile = () => {
-    () => alert("Scannnnnnnnnn!?");
-  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -155,9 +151,7 @@ const IncomingForm = () => {
           </div>
         </label>
       </div>
-      <div className="scan-container">
-        <button onClick={scanFile}>Scan File</button>
-      </div>
+
       <div
         {...getRootProps()}
         className={`dropzone ${isDragActive ? "active" : ""}`}

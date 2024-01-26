@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import "./styles.css";
 
 import { ipCon } from "../../../secret/ipCon";
@@ -52,7 +51,9 @@ const DataList = () => {
           .includes(searchTerm.toLowerCase()) ||
         item?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item?.letterType?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item?.subject?.toLowerCase().includes(searchTerm.toLowerCase())
+        item?.subject?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item?.from?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item?.to?.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredData(filtered);
   }, [searchTerm, data]);
@@ -64,6 +65,14 @@ const DataList = () => {
 
   const deleteLetter = async (title: string) => {
     try {
+      const shouldDelete = window.confirm(
+        `Are you sure you want to delete ${title}?`
+      );
+
+      if (!shouldDelete) {
+        return;
+      }
+
       const response = await fetch(`${ipCon}/delete-data/${title}`, {
         method: "DELETE",
         headers: {
@@ -100,7 +109,7 @@ const DataList = () => {
       <p className="letter-name">Letter Counter: </p>
       <input
         type="text"
-        placeholder="Search by tracking number, title, or letter type"
+        placeholder="Enter keywords... "
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
@@ -125,13 +134,13 @@ const DataList = () => {
               <td style={{ display: "flex" }}>
                 <button onClick={() => viewDetails(item)}>Details</button>
                 <button
-                  style={{ marginLeft: "10px", background: "yellow" }}
-                  onClick={() => deleteLetter(item.title)}
+                  style={{ marginLeft: "10px", background: "#FBEC5D" }}
+                  onClick={() => alert("uwu")}
                 >
                   Edit
                 </button>
                 <button
-                  style={{ marginLeft: "10px", background: "red" }}
+                  style={{ marginLeft: "10px", background: "#FF5733" }}
                   onClick={() => deleteLetter(item.title)}
                 >
                   Delete
@@ -157,6 +166,9 @@ const DataList = () => {
               </p>
               <p>
                 <strong>To:</strong> {selectedItem.to}
+              </p>
+              <p>
+                <strong>Subject:</strong> {selectedItem.subject}
               </p>
               <p>
                 <strong>Letter Type:</strong> {selectedItem.letterType}
